@@ -1,0 +1,9 @@
+//put first 20 fibonaccis in heap starting at mem5000
+
+function Sys.init 0
+    push constant 20     //how many
+    push constant 5000  //where
+    call Main.main 2
+    pop temp 0
+    label WHILE
+    goto WHILE

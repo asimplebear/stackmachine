@@ -1,0 +1,51 @@
+function Main.main 1
+
+    push argument 1
+    pop pointer 0     //THIS = 5000
+
+    push argument 1
+    push constant 1
+    add
+    pop pointer 1    //THAT = 5001
+
+    push constant 1
+    pop this 0
+    push constant 1
+    pop that 0      //S0 = S1 = 1
+
+    push argument 0
+    pop local 0     //gratuitous use of loc0
+
+    label LOOP
+
+    push this 0
+    push that 0
+    add
+    pop temp 0   // S(n) + S(n+1)
+
+    push pointer 1
+    pop pointer 0  // incr THIS
+
+    push pointer 1
+    push constant 1
+    add
+    pop pointer 1   // incr THAT
+
+    push temp 0
+    pop that 0    // retrieve S(n+2) and append
+
+    push local 0
+    push constant 1
+    sub
+    pop local 0    // decr loc0
+
+    push local 0
+    push constant 0
+    eq
+    if-goto END    // done
+
+    goto LOOP
+
+    label END
+    push constant 1 // dummy return
+    return

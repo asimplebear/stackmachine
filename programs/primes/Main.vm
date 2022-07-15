@@ -1,0 +1,143 @@
+
+
+
+// n, d --> n%d
+function Main.mod 1    //n = arg0 d = arg1
+
+label modloop
+
+push argument 0
+push argument 1
+lt
+if-goto modend   // if n < d  (end)
+
+push argument 0
+push argument 1
+sub
+pop argument 0   // n = n-d
+
+goto modloop
+
+label modend
+
+push argument 0        //return modulo
+
+return
+
+///////////////////////////////////////////
+function Main.isPrime 1  // loc0 are divisor candidates
+
+push argument 0
+push constant 4
+lt
+if-goto prime      //2 and 3 are prime.
+
+push argument 0
+push constant 1
+sub
+pop local 0       //start divisor candidates
+
+label loop
+
+push argument 0
+push local 0
+
+call Main.mod 2                 // n mod d
+push constant 0
+eq                  // n mod d = 0 ?
+if-goto notprime     //
+
+push local 0
+push constant 2
+
+eq
+if-goto prime
+
+push local 0
+push constant 1
+sub
+pop local 0
+
+goto loop
+
+label prime
+
+push constant 1
+
+goto end
+
+label notprime
+
+push constant 0
+
+label end
+return
+
+////////////////////////////////////
+
+function Main.makelist 2
+
+push argument 1
+pop pointer 0     // set THIS to desired heap location
+push argument 1
+pop pointer 1    // also THAT
+
+
+push constant 1
+pop local 0        // loc0 = place in list
+
+
+push constant 1
+pop local 1       // loc1 = candidates for primality
+
+
+label pl_loop
+
+push local 1
+push constant 1
+add
+pop local 1       // increment the candidate
+
+push local 1
+call Main.isPrime 1
+if-goto yes       // loc1 is prime, record it
+
+goto pl_loop     //otherwise try next candidate
+
+label yes
+
+
+push local 1  // put the successful candidate at THAT
+pop that 0
+
+
+
+push pointer 1
+push constant 1
+add
+pop pointer 1     //move THAT out by one
+
+
+
+// ARE WE FINISHED?
+push pointer 1   // if THAT is more than...
+push pointer 0   // arg0 past THIS...
+sub              //
+push argument 0  // the we have gotte...n
+gt               //
+if-goto done     // all the primes recorded
+//
+
+
+
+goto pl_loop
+
+label done
+return
+
+
+
+///////////////////////////////////
+///
+//////////////////////////////////
+
