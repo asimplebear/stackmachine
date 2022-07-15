@@ -2,14 +2,14 @@
 
 import os
 import sys
-from Parser import *
-from CodeWriter import *
+from Parser import Parser
+from CodeWriter import CodeWriter
 from util import sp_init
 
 def translate_directory(dir_path):
 
-    #prog_name is folder name of in_dir
-    #outfile will have prog_name with .asm ext
+    #prog_name is end folder name of dir_path
+    #outfile will be <prog_name>.asm
     prog_name = os.path.split(dir_path)[-1]
     outfile = '{}.asm'.format(prog_name)
 
@@ -23,7 +23,7 @@ def translate_directory(dir_path):
 
     #every .vm file in dir_path
     l = [x for x in os.listdir(dir_path) if\
-                 os.path.splitext(x)[1] == '.vm']
+                 '.vm' == os.path.splitext(x)[1]]
 
     if not 'Sys.vm' in l:
         print('need a Sys.vm')

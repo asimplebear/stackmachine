@@ -19,10 +19,10 @@ class Parser:
 
         self.index = 0
 
-        self.file = 'fIlE'
+        #self.file = 'fIlE'
         self.func = None
         self.ret_ind = 0
-        self.typ = None
+        self.type = None
         self.arg1 = None
         self.arg2 = None
 
@@ -145,8 +145,9 @@ class Parser:
             self.arg2 = ind
 
         else:
-            msg = '\nline {}:\n{}\nThis happened from the parser.'.format(*self.get_e_line())
-            raise ValueError(msg)
+            e = '\nline {}:\n{}Not a vm command.'\
+                    .format(*self.get_e_line())
+            raise ValueError(e)
 
 
         return self.typ, self.arg1, self.arg2

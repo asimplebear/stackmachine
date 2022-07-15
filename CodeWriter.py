@@ -90,7 +90,13 @@ class CodeWriter:
                 self.count += 1
 
             else:
-                input(self.parser.get_type())
+                print('fix Parser, should not happen')
+                quit()
+
+            if type(asm_cmds) == str:
+                self.finish()
+                e = asm_cmds.format(*self.parser.get_e_line())
+                raise ValueError(e)
 
             for asm_cmd in asm_cmds:
 

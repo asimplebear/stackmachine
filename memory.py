@@ -21,11 +21,8 @@ def segment_offset_limits(trans):
         if 0 <= int(ind) <= lim:
             return trans(vm_file, seg, ind)
         else:
-            print('line num {}'.format(error_line_num))
-            print(error_line)
-            print('{} mem segment needs'.format(seg))
-            print('offset between 0 and {}'.format(lim))
-            quit()
+            msg = 'line number {{}}\n{{}}\nmemory segment {} needs offset between 0 and {}'.format(seg, lim)
+            return msg
     return ret
 
 
@@ -101,12 +98,15 @@ def push_static(file_name, ind):
 def Push(file_name, seg, ind):
     if seg in ['local', 'argument', 'this', 'that']:
         ret = push_indirect(seg, ind)
-    if seg in ['temp', 'pointer']:
+    elif seg in ['temp', 'pointer']:
         ret = push_direct(seg, ind)
-    if 'constant' == seg:
+    elif 'constant' == seg:
         ret = push_constant(ind)
-    if 'static' == seg:
+    elif 'static' == seg:
         ret = push_static(file_name, ind)
+    else:
+        return 'line {{}}\n{{}}\n{} not a good memory segment'.format(seg)
+
     return ret.split('\n')
 
 
@@ -168,8 +168,7 @@ def Pop(vm_file, seg, ind):
     elif 'static' == seg:
         ret = pop_static(vm_file, ind)
     else:
-        print('{} not a good segment'.format(seg))
-        quit()
+        return 'line {{}}\n{{}}\n{} not a good memory segment'.format(seg)
 
     ret = clean(ret)
     return ret.split('\n')
