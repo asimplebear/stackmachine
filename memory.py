@@ -7,6 +7,7 @@ SEG_OFFSET_LIMITS = {
 'constant': 32767 - 0,
 'pointer': 4 - 3
 }
+
 def segment_offset_limits(trans):
     '''
     decorates push and pop commands to catch
@@ -22,6 +23,7 @@ def segment_offset_limits(trans):
             return trans(vm_file, seg, ind)
         else:
             msg = 'line number {{}}\n{{}}\nmemory segment {} needs offset between 0 and {}'.format(seg, lim)
+            #will raise ValueError in Codewriter.py
             return msg
     return ret
 
@@ -44,28 +46,26 @@ SEG_DESC = {
 }
 
 
-
 PUSH_FROM_D = '''
-@SP
+@SP   //push whatever's on D onto stack
 A=M
 M=D
 @SP
 M=M+1
 '''
 
-
-
 def push_indirect(seg, ind):
 
     seg_num = SEG_DESC[seg][0]
-    ret = '''@{}
-             D=M      //comments
-             @{}      //maybe here
+    ret = '''@{}      //starting mem addr of seg
+             D=M      //
+             @{}      //offset
              A=A+D
              D=M'''
     ret = ret.format(seg_num, ind)
     ret = ret + PUSH_FROM_D
     return clean(ret)
+
 
 def push_direct(seg, ind):
 
@@ -89,9 +89,6 @@ def push_static(file_name, ind):
     ret = ret.format(file_name, ind)
     ret = ret + PUSH_FROM_D
     return clean(ret)
-
-
-
 
 
 @segment_offset_limits
@@ -148,6 +145,7 @@ def pop_direct(seg, ind):
     ret = ret + POP_TO_D
     return ret
 
+
 def pop_static(vm_file, ind):
     ret = '''@{}.{}  //vm_file, ind
              D=A
@@ -172,12 +170,4 @@ def Pop(vm_file, seg, ind):
 
     ret = clean(ret)
     return ret.split('\n')
-
-
-
-
-
-
-
-
 

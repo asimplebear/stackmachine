@@ -11,17 +11,15 @@ class Parser:
         self.clines = [x.split('//')[0].strip()\
                                  for x in self.lines]
         self.clines = enumerate(self.clines)
+        #actual commands indexed with src-file numbers
         self.comms = [x for x in self.clines if x[1]]
         self.max_comm = len(self.comms)
         self.comm_num = -1
         self.comm = None
-        self.line_num = 0
 
         self.index = 0
 
-        #self.file = 'fIlE'
         self.func = None
-        self.ret_ind = 0
         self.type = None
         self.arg1 = None
         self.arg2 = None
@@ -53,8 +51,8 @@ class Parser:
 
 
 
-    def get_comm(self):
-        return self.comm
+    #def get_comm(self):
+    #    return self.comm
 
     def get_e_line(self):
         return self.line_num, self.lines[self.line_num]
@@ -62,8 +60,8 @@ class Parser:
     def get_index(self):
         return self.index
 
-    def get_func(self):
-        return self.func
+    #def get_func(self):
+    #    return self.func
 
     def advance(self):
         self.comm_num += 1

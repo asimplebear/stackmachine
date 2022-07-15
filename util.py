@@ -1,6 +1,6 @@
 
 def translation_failure(trans):
-    ''' 
+    '''
     decorator to catch translation failures.
     Modifies line by line translators.  Prevents
     error of this program and instead shows user
@@ -16,11 +16,8 @@ def translation_failure(trans):
     return ret
 
 
-
-
-
 def clean(template):
-    ''' 
+    '''
     converts readable/editable string with
     comments to whitespace/newlines-free
     uncommented strings.
@@ -30,26 +27,26 @@ def clean(template):
     lines = [x.split('//')[0].strip() for x in lines]
     lines = [x for x in lines if x]
     ret = '\n'.join(lines)
-    return ret 
+    return ret
 
-SP_INIT = '''
-@256
+
+BOOTSTRAP = '''
+@256    //set stack pointer MEM[0] = 256
 D=A
 @SP
 M=D
+
+@256
+D=A
+@LCL
+M=D
+
+@Sys.init
+0;JMP
 '''
 
-SP_INIT = clean(SP_INIT)
+BOOTSTRAP = clean(BOOTSTRAP)
 
-def sp_init():
-    return SP_INIT.split('\n')
-
-
-
-
-
-
-
-
-
+def Bootstrap():
+    return BOOTSTRAP.split('\n')
 

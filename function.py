@@ -22,17 +22,16 @@ FUNCTION = '''
 A=M
 M=0
 @SP
-M=M+1
+M=M+1   //push 0s for local variable
 '''
 FUNCTION = clean(FUNCTION)
 
 def Function(func, nLocs):
     ret = []
-
+    #receive control
     tag = '({})'.format(func)
     ret.append(tag)
-
-
+    #push 0 for each local var
     for i in range(nLocs):
         for cmd in FUNCTION.split('\n'):
             ret.append(cmd)
@@ -40,13 +39,8 @@ def Function(func, nLocs):
 
 
 
-
-#first {}-format is callee's ARG
-#second {}-format is from FUNC_ADDRS
-#and gives line where execution starts.
-#{{}}-format is for the return address
-#gotten by len of asm code so far plus
-#len of this code
+#{return addr}{nArgs+5}{func}{return addr}
+#makes frame stack
 CALL =\
 '''
 @{}   //return address (bottom this string)
@@ -65,10 +59,6 @@ M=D
 @SP
 M=M+1
 
-
-
-
-
 @ARG//save ARG
 D=M
 @SP
@@ -76,6 +66,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @THIS//save THIS
 D=M
 @SP
@@ -83,6 +74,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @THAT//save THAT
 D=M
 @SP
@@ -97,7 +89,7 @@ D=M
 M=D
 
 @{}//set new ARG (nArgs+5)
-D=A
+D=A  //  +5 is for THAT,THIS,ARG,LOCAL and ret addr
 @SP
 D=M-D
 @ARG
@@ -110,8 +102,6 @@ M=D
 
 ({})  //pick up control after return
 
-
-
 '''
 
 CALL = clean(CALL)
@@ -121,11 +111,6 @@ def Call(func, nArgs, count):
     tag = '{}$ret.{}'.format(func,count)
     ret = CALL.format(tag, int(nArgs)+5, func, tag)
     return ret.split('\n')
-
-
-
-
-
 
 
 RETURN =\
@@ -150,57 +135,43 @@ M=D
 A=M-1
 D=M
 @ARG
-
 A=M ////////
-
-
-
-
-
-
-
-
-
 M=D
 
-//   SP = ARG + 1  (put stack pointer back for caller)
 
+//   SP = ARG + 1  (put stack pointer back for caller)
 @ARG
 D=M
 @SP
 M=D+1
 
-//                 THAT = *(FRAME-1)
-@R15
-AM=M-1
+//         THAT = *(FRAME-1) (FRAME is funcs LCL)
+@R15       //walking back R15 thru THIS, THAT etc
+AM=M-1     //decr and also look there
 D=M
 @THAT
-M=D
-//       replace THIS
+M=D        //THAT is restored
+
+//       restore THIS
 @R15
 AM=M-1
 D=M
 @THIS
 M=D
-//      replace ARG
+
+//      restore ARG
 @R15
 AM=M-1
 D=M
 @ARG
 M=D
-//      replace LCL
 
-
-
-
-
-
+//      restore LCL
 @R15
 AM=M-1
 D=M
 @LCL
 M=D
-
 
 //     return to ret addr held in R13
 @R13
@@ -211,3 +182,4 @@ RETURN = clean(RETURN)
 
 def Return():
     return RETURN.split('\n')
+
