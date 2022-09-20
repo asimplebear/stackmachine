@@ -1,0 +1,12 @@
+
+
+function Sys.init 0
+
+ push constant 3000
+ call Bits.makebits 1
+ push constant 3000
+ call Draw.main 1
+
+label END
+
+goto END

@@ -1,0 +1,68 @@
+function Draw.main 1
+
+
+//push constant 100
+//pop local 0
+
+label LOOP
+
+push local 0
+push local 0
+push argument 0
+call Draw.draw 3
+
+push local 0
+push constant 100
+gt
+if-goto END
+
+
+push local 0
+push constant 1
+add
+pop local 0
+
+
+goto LOOP
+
+label END
+
+return
+
+
+
+//arg0 = row, arg1 = column draw(superpose) dot
+//args = where starts 00100.. segment
+function Draw.draw 3
+
+ push constant 32
+ push argument 0
+ call Mult.mult 2
+ pop local 0       //loc0 = 32*row
+
+ push argument 1
+ push constant 16
+ call DivMod.divmod 2
+ pop local 1          //loc1 = c/16  tmp0 = c%16
+
+ push local 0
+ push local 1
+ push constant 16384
+ add
+ add
+ pop pointer 0    //THIS = 16384 + 32*r + c/16
+
+
+ push argument 2
+ push temp 0
+ add
+ pop pointer 1
+ push that 0
+ push this 0
+ or
+ pop this 0
+
+
+
+ return
+

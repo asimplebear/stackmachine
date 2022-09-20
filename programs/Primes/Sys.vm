@@ -1,0 +1,15 @@
+//make a list of prime numbers
+
+function Sys.init 0
+
+  push constant 200    //how many primes to list
+  push constant 5000   //where in heap to put
+
+  call Main.makelist 2
+
+  pop temp 0
+
+  //no return
+  label END
+  goto END
+

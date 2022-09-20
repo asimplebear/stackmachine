@@ -1,0 +1,81 @@
+
+
+
+function Main.main 4
+
+  push constant 100
+  pop local 0
+  push constant 101
+  pop local 1
+
+
+  push constant 1
+  pop local 2      //loc2 = dx
+  push constant 1
+  pop local 3      //loc3 = dy
+
+
+  label LOOP
+
+  push local 0
+  push constant 250
+  lt
+  if-goto DOWN
+  push local 2
+  push constant 2
+  sub
+  pop local 2
+  label DOWN
+
+  push local 0
+  push constant 10
+  gt
+  if-goto UP
+  push local 2
+  push constant 2
+  add
+  pop local 2
+  label UP
+
+  push local 1
+  push constant 500
+  lt
+  if-goto RIGHT
+  push local 3
+  push constant 2
+  sub
+  pop local 3
+  label RIGHT
+
+
+  push local 1
+  push constant 12
+  gt
+  if-goto LEFT
+  push local 3
+  push constant 2
+  add
+  pop local 3
+  label LEFT
+
+  push local 0
+  push local 2
+  add
+  pop local 0
+
+  push local 1
+  push local 3
+  add
+  pop local 1
+
+
+  push local 0
+  push local 1
+  call Draw.draw 2
+  pop temp 1
+
+  goto LOOP
+
+//  label END
+//  return
+

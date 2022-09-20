@@ -1,0 +1,82 @@
+// defines a looping mult and a recursive factorial that
+// calls mult
+
+
+
+
+
+
+//calls main with no return and infinite loops
+function rec_fact.init 0
+    push constant 7   // 7 is arg to be factorialed
+                      // because 8! = 40320
+                      //   and 2^15 = 32768
+    call rec_fact.main 1
+    label quit
+    goto quit
+//no return....
+
+
+
+//main function
+function rec_fact.main 0
+  push argument 0
+  call rec_fact.factorial 1
+  pop temp 5      // MEM[10] = 7! = 5040
+return
+
+// x, y --> x*y
+function rec_fact.mult 1 // x = arg0 y = arg1 prod = loc0
+
+    label multloop
+
+    push argument 1
+    push constant 0
+    eq
+    if-goto multend   // if y == 0  (end)
+
+    push argument 0
+    push local 0
+    add
+    pop local 0     //  prod := x + prod
+
+    push argument 1
+    push constant 1
+    sub
+    pop argument 1     //  y := y - 1
+
+    goto multloop      // (multloop)
+
+    label multend
+
+    push local 0
+
+    return
+
+
+// x --> x!
+function rec_fact.factorial 1
+
+    push argument 0
+    pop local 0
+
+    push local 0
+    push constant 2
+    lt
+    if-goto factend    // if x<2 return 1
+
+    push argument 0
+    push constant 1
+    sub                 // x-1 on stack
+    call rec_fact.factorial 1    // (x-1)! on stack
+    push argument 0     // x on top of (x-1)!
+    call rec_fact.mult 2
+    pop local 0        //     = x*(x-1)!
+
+    label factend
+
+    push local 0
+    return
+
+
+

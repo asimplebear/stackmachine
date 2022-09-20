@@ -1,0 +1,21 @@
+
+
+
+
+function Sys.init 0
+
+    call Foo.f0 0  // constant 42 to static 0 in Foo.vm
+    pop temp 5
+    call Bar.b0 0  // constant 99 to staic 0 in Bar.vm
+    pop temp 5
+    call Foo.f1 0  // static 0 to temp 0 in Foo.vm
+    pop temp 5
+    call Bar.b1 0  // static 0 to temp 1 in Bar.vm
+    pop temp 5
+    label QUIT
+    goto QUIT
+
+//expect temp 0 is MEM[5] = 42
+//       temp 1 is MEM[6] = 99
+
+

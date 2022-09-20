@@ -1,0 +1,39 @@
+//Two arguments return the product
+
+//push static 0
+//push static 1
+
+//call Mult.mult 2
+
+//label E
+//goto E
+
+
+//arg0, arg1 --> arg0 * arg1
+function Mult.mult 1
+
+ label LOOP
+
+ push constant 0
+ push argument 0
+ eq
+ if-goto END
+
+ push argument 1
+ push local 0
+ add
+ pop local 0
+
+ push argument 0
+ push constant 1
+ sub
+ pop argument 0
+
+
+ goto LOOP
+
+ label END
+
+ push local 0
+
+ return

@@ -1,0 +1,14 @@
+
+
+function Foo.f0 0
+    push constant 42
+    pop static 0
+    push constant 1
+    return
+
+
+function Foo.f1 0
+    push static 0
+    pop temp 0
+    push constant 1
+    return

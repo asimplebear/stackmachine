@@ -1,0 +1,118 @@
+//KBD    24576
+//LEFT   130
+//UP     131
+//RIGHT  132
+//DOWN   133
+
+function Main.main 4
+  /////////////////
+  push constant 100
+  pop local 0
+  push constant 100
+  pop local 1            //loc0 = row  loc1 = column
+  push constant 0
+  pop local 2            //loc2 = dr  delta increments
+  push constant 0        // equal 0 or 1
+  pop local 3            //loc3 = dc
+  push constant 24576
+  pop pointer 0          //THIS = KBD
+  /////////////////
+
+  label LOOP
+
+  push local 0
+  push local 1
+  call Draw.draw 2   //plot r,c
+  pop temp 1
+
+  push local 0
+  push local 2
+  add
+  pop local 0    //r = r + dr incremnet row by 0 or 1
+  push local 1
+  push local 3
+  add
+  pop local 1    //c = c + dc
+
+  push local 0
+  push constant 250
+  gt
+  if-goto STOP           //stop (dr=0=dc) if you
+  push local 0           //get too close to boundary
+  push constant 10
+  lt
+  if-goto STOP           //boundary
+  push local 1
+  push constant 500
+  gt
+  if-goto STOP            //boundary
+  push local 1
+  push constant 12
+  lt
+  if-goto STOP            //boundary
+  label STOPPED        //come back after dr=0=dc
+
+  push this 0
+  push constant 130
+  eq
+  if-goto _LEFT      //arrow key pressed so
+  push this 0        //set dr and dc accordingly
+  push constant 131
+  eq
+  if-goto _UP
+  push this 0
+  push constant 132
+  eq
+  if-goto _RIGHT
+  push this 0
+  push constant 133
+  eq
+  if-goto _DOWN
+
+  push this 0
+  push constant 32            //SPACE pressed
+  eq                          //so goto bottom
+  if-goto RETURN              //and will return
+
+  goto LOOP    //
+
+  label _LEFT
+  push constant 0
+  not
+  pop local 3      //dc=-1
+  push constant 0
+  pop local 2     //dr=0
+  goto LOOP
+
+  label _RIGHT
+  push constant 1
+  pop local 3     //dc=1
+  push constant 0
+  pop local 2     //dr=0
+  goto LOOP
+
+  label _UP
+  push constant 0
+  not
+  pop local 2     //dr=-1
+  push constant 0
+  pop local 3     //dc=0
+  goto LOOP
+
+  label _DOWN
+  push constant 1
+  pop local 2     //dr=1
+  push constant 0
+  pop local 3     //dc=0
+  goto LOOP
+
+  label STOP        //set dr=0=dc cause
+  push constant 0   //too close to boundary
+  pop local 2
+  push constant 0
+  pop local 3
+  goto STOPPED
+
+  label RETURN
+  return
+

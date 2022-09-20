@@ -1,0 +1,75 @@
+//   mult, divmod
+//   mult: x,y --> x*y
+//   divmod: x,y --> x/y with tmp0 = x%y
+
+
+//arg0, arg1 --> arg0 * arg1
+function Mult.mult 1
+
+ label LOOP
+
+ push constant 0
+ push argument 0
+ eq
+ if-goto END
+
+ push argument 1
+ push local 0
+ add
+ pop local 0
+
+ push argument 0
+ push constant 1
+ sub
+ pop argument 0
+
+
+ goto LOOP
+
+ label END
+
+ push local 0
+
+ return
+
+/////////////////////////////////////////////////
+
+//n,d --> n/d and pops n%d to temp 0
+function DivMod.divmod 1
+
+ //argument 0 will follow MOD
+ //local 0 counts up to DIV
+
+  push constant 0
+  pop local 0           // DIV starts at 0
+
+  label LOOP
+
+  push argument 0
+  push argument 1
+  lt
+  if-goto END          // if n < d then done
+
+
+  push argument 0
+  push argument 1
+  sub
+  pop argument 0       // n = n - d
+
+  push local 0
+  push constant 1
+  add
+  pop local 0          // DIV++
+
+  goto LOOP
+
+  label END
+
+  push argument 0
+  pop temp 0          // n=MOD to temp 0
+
+  push local 0       // DIV to return
+
+
+ return
+

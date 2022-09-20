@@ -1,0 +1,40 @@
+///////////////////////////////////////////////
+//function Draw.draw 2 // function Draw.draw 2
+//
+//Plots point (r,c).  Superposes over any
+//other pixels.
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+
+
+//arg0 = row, arg1 = column draw(superpose) dot
+function Draw.draw 3
+
+ push constant 32
+ push argument 0
+ call Arithmetic.mult 2
+ pop local 0       //loc0 = 32*row
+
+ push argument 1
+ push constant 16
+ call Arithmetic.divmod 2
+ pop local 1          //loc1 = c/16  tmp0 = c%16
+
+ push local 0
+ push local 1
+ push constant 16384
+ add
+ add
+ pop pointer 0    //THIS = 16384 + 32*r + c/16
+
+ push temp 0
+ call Bits.pow2 1  //00..1..00 on stack
+ push this 0
+ or
+ pop this 0
+
+ return
+
+
+
+

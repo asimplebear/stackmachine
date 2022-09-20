@@ -1,0 +1,37 @@
+// put some powers of two
+// into temp segment so
+//temp 0..5 get 1 in the:
+// 0,1,2,3,14,15 place
+
+function Sys.init 0
+
+push constant 3000
+call Bits.makebits 1
+pop temp 0
+
+push constant 0
+call Bits.pow2 1
+pop temp 0
+
+push constant 1
+call Bits.pow2 1
+pop temp 1
+
+push constant 2
+call Bits.pow2 1
+pop temp 2
+
+push constant 3
+call Bits.pow2 1
+pop temp 3
+
+push constant 14
+call Bits.pow2 1
+pop temp 4
+
+push constant 15
+call Bits.pow2 1
+pop temp 5
+
+label FOREVER
+goto FOREVER

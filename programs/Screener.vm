@@ -1,0 +1,46 @@
+function screener.init 0
+
+ push constant 24576
+ pop pointer 0         // THIS = KBD
+ push constant 16384
+ pop pointer 1         // THAT = SCR
+
+ label loop
+
+ push this 0
+ push constant 0
+ eq
+ if-goto WHITE      // no key
+
+ push constant 0
+ not                // 'not' of zero is all bits one
+ pop that 0
+ goto COLORED       // make black
+
+ label WHITE
+ push constant 0
+ pop that 0         // make white
+
+ label COLORED
+
+ push pointer 1          // that screen
+ //push constant 24575
+ //eq
+ push constant 24500
+ eq
+ if-goto RESET       // reached end of screen
+
+ push pointer 1
+ push constant 1
+ add
+ pop pointer 1         // increment screen ptr
+
+ goto loop
+
+ label RESET
+ push constant 16384
+ pop pointer 1
+
+ goto loop
+
+

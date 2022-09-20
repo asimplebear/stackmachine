@@ -1,0 +1,13 @@
+
+
+function Bar.b0 0
+    push constant 99
+    pop static 0
+    push constant 1
+    return
+
+function Bar.b1 0
+    push static 0
+    pop temp 1
+    push constant 1
+    return

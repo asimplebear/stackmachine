@@ -1,0 +1,26 @@
+//loop until a key is pressed
+//then put ascii of that key
+//into M[16] (static 0) and
+//pass into inactive loop
+
+call keyboard.main 0
+
+label forever
+goto forever
+
+function keyboard.main 0
+ push constant 24576
+ pop pointer 0          // *THIS = 24576 (KBD)
+
+ label loop
+
+ push this 0
+ pop static 0     // *KBD at mem[16]
+
+ push static 0
+ push constant 0
+ eq
+ if-goto loop     // if mem[16]==0 stay in main loop
+
+ return
+

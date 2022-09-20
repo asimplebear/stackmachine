@@ -1,0 +1,82 @@
+
+///////////////////////////
+// Bit.makebits (nArgs=1)
+// sets M[arg0 + 1] = 2^i
+// for 0 <= i < 16
+//
+// Bits.pow2 (nArgs=1)
+// returns 00..1..0 with one in
+// the arg0-th place FROM THE
+// RIGHT. (Little Endian)
+//
+// These two functions share
+// stat0 which was arg0 of
+// Bits.makebits
+////////////////////////////
+
+
+
+
+// Bit.makebits (nArgs=1)
+// sets M[arg0 + 1] = 2^i
+// for 0 <= i < 16
+function Bits.makebits 1
+
+ push argument 0   // an address in heap
+ pop static 0      // used in Bits.pow2
+ push argument 0
+ pop pointer 0     //THIS = somewhere in heap
+ push constant 0
+ pop this 0        //zero in case garbage
+
+ push constant 1
+ pop local 0       // loc0 = 1
+
+ label LOOP
+
+ push local 0
+ pop this 0
+
+ push constant 1
+ push pointer 0
+ add
+ pop pointer 0     //THIS++
+
+ push local 0
+ push local 0
+ add
+ pop local 0     //loc0 = 2*loc0
+
+ push constant 16384
+ push local 0
+ lt
+ if-goto END
+ goto LOOP
+ label END
+
+ push constant 32767
+ not
+ pop this 0
+
+ return
+
+///////////////////////////////////////////////
+
+
+
+//Bits.makebits has to be run already.
+// Bits.pow2 (nArgs=1)
+// returns 00..1..0 with one in
+// the arg0-th place FROM THE
+// RIGHT. (Little Endian)
+function  Bits.pow2 0
+ push argument 0
+ push static 0
+ add
+ pop pointer 0
+ push this 0
+
+ return
+
+
+
