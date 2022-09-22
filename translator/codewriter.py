@@ -34,25 +34,26 @@ class CodeWriter:
             wob.write('\n')
         self.targ = targ
         self.srcs = srcs
-        self.func_name = None
-        self.vmfile = None
 
     def run(self):
         with open(self.targ, 'a') as wob:
 
             for src in self.srcs:
+
+                func_name = None
+
                 if not src.endswith('.vm'): continue
 
-                self.Xxx =\
+                Xxx =\
                      src.split('/')[-1].split('.')[0]
 
-                self.count = 0 #cond op count
+                count = 0 #cond op count
 
                 for srcl in Parser(src):
 
                     line_num, line, args = srcl
 
-                    wob.write('//'+self.Xxx+'.vm line number '+str(line_num)+': \n//'+line)
+                    wob.write('//'+Xxx+'.vm line number '+str(line_num)+': \n//'+line)
                     wob.write('\n')
 
                     if not any(args):
@@ -60,20 +61,20 @@ class CodeWriter:
                     comm, arg1, arg2 = args
 
                     if comm == 'function':
-                        self.func_name = arg1
+                        func_name = arg1
 
                     if comm == 'return':
-                        self.func_name = None
+                        func_name = None
 
                     if comm in ['call','eq','gt','lt']:
-                        self.count += 1
+                        count += 1
 
                     code = CTYP[comm](comm,
                                       arg1,
                                       arg2,
-                                      self.func_name,
-                                      self.count,
-                                      self.Xxx)
+                                      func_name,
+                                      count,
+                                      Xxx)
 
                     if type(code) == Exception:
                         msg = 'Exception occurred atline {}\n{}'.format(line_num, line)
