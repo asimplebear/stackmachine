@@ -36,7 +36,6 @@ class CodeWriter:
         self.srcs = srcs
         self.func_name = None
         self.vmfile = None
-        self.count = 0     #function call count
 
     def run(self):
         with open(self.targ, 'a') as wob:
@@ -47,12 +46,17 @@ class CodeWriter:
                 self.Xxx =\
                      src.split('/')[-1].split('.')[0]
 
-                self.ccount = 0 #cond op count
+                self.count = 0 #cond op count
 
                 for srcl in Parser(src):
 
-                    line_num, line, *args = srcl
+                    line_num, line, args = srcl
 
+                    wob.write('//'+self.Xxx+'.vm line number '+str(line_num)+': \n//'+line)
+                    wob.write('\n')
+
+                    if not any(args):
+                        continue
                     comm, arg1, arg2 = args
 
                     if comm == 'function':
@@ -75,19 +79,6 @@ class CodeWriter:
                         msg = 'Exception occurred atline {}\n{}'.format(line_num, line)
                         sys.tracebacklimit = 0
                         raise Exception(msg) from code
-                        #print('\nException occurred at')
-                        #print('line {}'.format(line_num))
-                        #print(line)
-                        #print(code)
-                        #raise code
-                        #quit()
-                    wob.write('//line num: ')
-                    wob.write(str(line_num))
-                    wob.write('\n//in')
-                    wob.write(self.Xxx)
-                    wob.write('\n//')
-                    wob.write(line)
-                    wob.write('\n')
                     wob.write(code)
 
 

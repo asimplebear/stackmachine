@@ -1,0 +1,22 @@
+
+
+//comment 0
+
+
+function Sys.init 0
+
+ push constant 3000    //3000 is pretty big no?
+ call Bits.makebits 1
+ pop temp 0
+                           //gap!
+call Main.main 0
+pop temp 0
+
+label FOREVER
+goto FOREVER
+
+add
+
+eq
+
+

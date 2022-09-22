@@ -89,12 +89,12 @@ A=A-1
 M=M-D
 D=M
 M=-1
-@COND{}
+@{}
 D;JEQ
 @SP
 A=M-1
 M=0
-(COND{})
+({})
 
 ''',
 
@@ -111,12 +111,12 @@ A=A-1
 M=M-D
 D=M
 M=0
-@COND{}
+@{}
 D;JLE
 @SP
 A=M-1
 M=-1
-(COND{})
+({})
 
 ''',
 
@@ -132,12 +132,12 @@ A=A-1
 M=M-D
 D=M
 M=0
-@COND{}
+@{}
 D;JGE
 @SP
 A=M-1
 M=-1
-(COND{})
+({})
 
 '''
 
@@ -149,9 +149,10 @@ STACK_OPS.update(COND_STACK_OPS)
 def Arithmetic(*vm_line):
 
 
-    op, _, _, _, count, _ = vm_line
+    op, _, _, _, count, Xxx = vm_line
 
+    lab = '{}$COND.{}'.format(Xxx, count)
 
-    return STACK_OPS[op].format(count, count)
+    return STACK_OPS[op].format(lab, lab)
 
 

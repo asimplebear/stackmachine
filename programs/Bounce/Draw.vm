@@ -16,7 +16,9 @@ function Draw.draw 3
  pop local 0       //loc0 = 32*row
 
  push argument 1
+
  push constant 16
+
  call Arithmetic.divmod 2
  pop local 1          //loc1 = c/16  tmp0 = c%16
 

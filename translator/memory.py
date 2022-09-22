@@ -59,7 +59,6 @@ A=M
 M=D
 @SP
 M=M+1
-
 '''
 
 def push_indirect(seg, ind):
@@ -71,7 +70,6 @@ D=M      //
 @{}      //offset
 A=A+D
 D=M
-
 '''
     ret = ret.format(seg_num, ind)
     ret = ret + PUSH_FROM_D
@@ -116,7 +114,7 @@ def Push(*vm_line):
     elif 'static' == seg:
         ret = push_static(Xxx, ind)
     else:
-        input('memory.py Push')
+        ret = Exception(Xxx+'.vm & memory.py Push')
     return ret
 
 
@@ -133,7 +131,6 @@ D=M        // D holds the pop payload
 @R13
 A=M       //looking at target memory
 M=D
-
 '''
 
 def pop_indirect(seg, ind):
@@ -144,7 +141,6 @@ def pop_indirect(seg, ind):
 D=M
 @{}
 D=D+A
-
 '''
     ret = ret.format(seg_num, ind)
     ret = ret + POP_TO_D

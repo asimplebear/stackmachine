@@ -96,6 +96,7 @@ M=D
 0;JMP
 //wait here for function to return
 ({})  //pick up control after return
+
 '''
 
 #CALL = clean(CALL)
@@ -111,8 +112,8 @@ def Call(*vm_line):
 
 
 RETURN =\
-'''//return
-@LCL
+'''
+@LCL     //return
 D=M
 @R15
 M=D       //  R15 = LCL
