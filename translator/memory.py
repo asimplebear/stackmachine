@@ -1,4 +1,3 @@
-from util import clean
 
 #maximum for index on direct adressing push and pop.
 SEG_OFFSET_LIMITS = {
@@ -136,7 +135,7 @@ M=D
 def pop_indirect(seg, ind):
 
     seg_num = SEG_DESC[seg][0]
-    ret = '''\
+    ret = '''
 @{}
 D=M
 @{}
@@ -149,20 +148,22 @@ D=D+A
 def pop_direct(seg, ind):
 
     seg_num = SEG_DESC[seg][0]
-    ret = '''@{}
-             D=A
-             @{}
-             D=D+A'''
+    ret = '''
+@{}
+D=A
+@{}
+D=D+A'''
     ret = ret.format(seg_num, ind)
     ret = ret + POP_TO_D
     return ret
 
 
 def pop_static(vm_file, ind):
-    ret = '''@{}.{}  //vm_file, ind
-             D=A
-             //@{}   //ind
-             //D=D+A'''
+    ret = '''
+@{}.{}  //vm_file, ind
+D=A
+//@{}   //ind
+//D=D+A'''
     ret = ret.format(vm_file, ind, ind)
     ret = ret + POP_TO_D
     return ret

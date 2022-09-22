@@ -1,6 +1,6 @@
 //loop until a key is pressed
 //then put ascii of that key
-//into M[16] (static 0) and
+//into M[5] (temp 0) and
 //pass into inactive loop
 
 call keyboard.main 0
@@ -15,7 +15,7 @@ function keyboard.main 0
  label loop
 
  push this 0
- pop static 0     // *KBD at mem[16]
+ pop temp 0     // *KBD at mem[5]
 
  push static 0
  push constant 0

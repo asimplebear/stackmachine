@@ -30,6 +30,9 @@ class CodeWriter:
     def __init__(self, srcs, targ):
 
         with open(targ, 'w') as wob:
+            #Bootstrap(False) sends only the
+            #set SP code.  Bootstrap(True)
+            #also does call Sys.init code.
             wob.write(Bootstrap(len(srcs) > 1))
             wob.write('\n')
         self.targ = targ
@@ -44,7 +47,7 @@ class CodeWriter:
 
                 if not src.endswith('.vm'): continue
 
-                Xxx =\
+                file_name =\
                      src.split('/')[-1].split('.')[0]
 
                 count = 0 #cond op count
@@ -53,7 +56,7 @@ class CodeWriter:
 
                     line_num, line, args = srcl
 
-                    wob.write('//'+Xxx+'.vm line number '+str(line_num)+': \n//'+line)
+                    wob.write('//'+file_name+'.vm line number '+str(line_num)+': \n//'+line)
                     wob.write('\n')
 
                     if not any(args):
@@ -74,7 +77,7 @@ class CodeWriter:
                                       arg2,
                                       func_name,
                                       count,
-                                      Xxx)
+                                      file_name)
 
                     if type(code) == Exception:
                         msg = 'Exception occurred atline {}\n{}'.format(line_num, line)

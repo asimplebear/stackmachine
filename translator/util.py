@@ -1,5 +1,5 @@
 
-def translation_failure(trans):
+def _translation_failure(trans):
     '''
     decorator to catch translation failures.
     Modifies line by line translators.  Prevents
@@ -16,7 +16,7 @@ def translation_failure(trans):
     return ret
 
 
-def clean(template):
+def _clean(template):
     '''
     converts readable/editable string with
     comments to whitespace/newlines-free

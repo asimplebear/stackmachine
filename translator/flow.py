@@ -1,8 +1,7 @@
 
 
 #second pass (handle_labels) fills in {}
-GOTO =\
-'''
+GOTO = '''\
 //goto
 @{}
 0;JMP
@@ -17,8 +16,7 @@ def Goto(*vm_line):
     return GOTO.format(tag)
 
 #JNE happens iff top of stack has other than zero
-IF_GOTO =\
-'''
+IF_GOTO = '''\
 //if-goto
 @SP
 AM=M-1
