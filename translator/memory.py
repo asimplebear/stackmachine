@@ -8,7 +8,7 @@ SEG_OFFSET_LIMITS = {
 }
 
 
-OFFSET_ER = '''\
+OFFSET_ER = '''
 \n\nfrom memory.py:
 memory segment {} needs offset between 0 and {}
 '''

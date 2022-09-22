@@ -2,8 +2,7 @@
 
 #second pass (handle_labels) fills in {}
 GOTO = '''\
-//goto
-@{}
+@{} //goto
 0;JMP
 
 '''
@@ -17,8 +16,7 @@ def Goto(*vm_line):
 
 #JNE happens iff top of stack has other than zero
 IF_GOTO = '''\
-//if-goto
-@SP
+@SP //if-goto
 AM=M-1
 D=M
 @{}

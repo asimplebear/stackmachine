@@ -1,25 +1,7 @@
 
-
-
-def clean(template):
-    '''
-    converts readable/editable string with
-    comments to whitespace/newlines-free
-    uncommented strings.
-    '''
-
-    lines = template.split('\n')
-    lines = [x.split('//')[0].strip() for x in lines]
-    lines = [x for x in lines if x]
-    ret = '\n'.join(lines)
-    return ret
-
-
-
-
 PUSH_ZERO =\
-'''//push {}-th zero of {} for local vars for {}
-@SP
+'''
+@SP //push {}-th of {} zeros for local segment in {}
 A=M
 M=0
 @SP

@@ -8,8 +8,7 @@
 STACK_OPS =\
 {'add':
 '''
-//add
-@SP
+@SP //add
 M=M-1
 A=M
 D=M
@@ -20,8 +19,7 @@ M=D+M
 
 'sub':
 '''
-//sub
-@SP
+@SP //sub
 M=M-1
 A=M
 D=M
@@ -32,8 +30,7 @@ M=M-D
 
 'neg':
 '''
-//neg
-@SP
+@SP //neg
 A=M-1
 M=-M
 
@@ -41,8 +38,7 @@ M=-M
 
 'and':
 '''
-//and
-@SP
+@SP //and
 M=M-1
 A=M
 D=M
@@ -53,8 +49,7 @@ M=D&M
 
 'or':
 '''
-//or
-@SP
+@SP //or
 M=M-1
 A=M
 D=M
@@ -66,8 +61,7 @@ M=D|M
 
 'not':
 '''
-//not
-@SP
+@SP //not
 A=M-1
 M=!M
 
@@ -80,8 +74,7 @@ M=!M
 COND_STACK_OPS=\
 {'eq':
 '''
-//eq
-@SP
+@SP //eq
 M=M-1
 A=M
 D=M
@@ -102,8 +95,7 @@ M=0
 
 'gt':
 '''
-//gt
-@SP
+@SP //gt
 M=M-1
 A=M
 D=M
@@ -123,8 +115,7 @@ M=-1
 
 'lt':
 '''
-//lt
-@SP
+@SP //lt
 M=M-1
 A=M
 D=M

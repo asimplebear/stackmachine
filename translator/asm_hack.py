@@ -3,9 +3,6 @@
 import sys
 import os
 
-
-
-
 LABELS = {
           "R0":     "0000000000000000",
           "R1":     "0000000000000001",
@@ -31,9 +28,6 @@ LABELS = {
           "KBD":    "0110000000000000",
           "SCREEN": "0100000000000000"
          }
-
-
-
 
 COMPS = {
          "0":   "0101010",
@@ -67,8 +61,6 @@ COMPS = {
          "D|M": "1010101"
         }
 
-
-
 DESTS = {
          "":    "000",
          "M":   "001",
@@ -80,7 +72,6 @@ DESTS = {
          "AMD": "111"
         }
 
-
 JMPS = {
         "":    "000",
         "JGT": "001",
@@ -91,10 +82,6 @@ JMPS = {
         "JLE": "110",
         "JMP": "111"
        }
-
-
-
-
 
 def two_bytes(n):
     '''
@@ -112,7 +99,6 @@ def clean_lines(lines):
 
     return ret
 
-
 def translateAcommand(line):
     '''
     @<val>    where val is numbeer or label
@@ -127,7 +113,6 @@ def translateAcommand(line):
     assert '0' == ret[0]
 
     return ret
-
 
 def translateCcommand(line):
     '''
@@ -147,7 +132,6 @@ def translateCcommand(line):
 
     return ret
 
-
 def translate_line(x):
 
     #A-instruction
@@ -156,7 +140,6 @@ def translate_line(x):
     #C-instruction  dest=comp;jump
     if '=' in x or ';' in x:
         return translateCcommand(x)
-
 
 def tag_line(line):
     '''
@@ -167,7 +150,6 @@ def tag_line(line):
         return b
     else:
         return False
-
 
 def resolve_tags(lines):
     '''
@@ -186,9 +168,7 @@ def resolve_tags(lines):
         else:
             #not a tagline
             ret.append(line)
-
     return ret
-
 
 def new_vars(l):
     '''
@@ -213,23 +193,25 @@ def assemble_commands(lines):
     list of binary strings
     '''
     #strip comments and blank lines
-    ret = clean_lines(lines)
+    lns = clean_lines(lines)
     #strip taglines and resolve to line numbers
-    ret = resolve_tags(ret)
+    lns = resolve_tags(lns)
     #collect vars defined by A-commands
-    new_vars(ret)
+    new_vars(lns)
     #transcribe asm to machine
-    ret = [translate_line(line) for line in ret]
-
+    ret = []
+    for line in lns:
+        try:
+            hl = translate_line(line)
+        except:
+            return Exception(line)
+        ret.append(hl)
     return ret
-
-
 
 def assemble_file(asm_file):
     '''
     given path/to/file.asm create path/to/file.hack
     '''
-
     name, ext = os.path.splitext(asm_file)
     assert '.asm' == ext
 
@@ -240,13 +222,15 @@ def assemble_file(asm_file):
 
     mach_lines = assemble_commands(asm_lines)
 
+    if type(mach_lines) == Exception:
+        m = 'cmd {} in {} is bad'.format(mach_lines,\
+                                         asm_file)
+        raise Exception(m)
+
     mach_text = '\n'.join(mach_lines) + '\n'
 
     with open(hack_file, 'w') as fob:
         fob.write(mach_text)
-
-    #print('{} ==> {}'.format(asm_file, hack_file))
-
 
 def assemble_directory(asm_dir):
     '''
@@ -259,9 +243,7 @@ def assemble_directory(asm_dir):
     for asm_file in asm_files:
         assemble_file(asm_file)
 
-
 def main():
-
 
     if len(sys.argv) != 2:
         raise Exception('usage: ./Assember <file> | <directory> ')
@@ -279,11 +261,7 @@ def main():
     else:
         print('{} is not good file name'.format(arg))
 
-
 if __name__ == '__main__':
 
     main()
-
-
-
 
